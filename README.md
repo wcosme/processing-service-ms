@@ -34,7 +34,7 @@ A POC visa validar os seguintes aspectos:
 
 ## 📋 Modelagem das Entidades
 
-### TransactionRequest (Requisição de Transação)
+### TransactionProcess (Requisição de Transação)
 - `id`: Identificador único (UUID)
 - `userId`: ID do usuário que fez a transação
 - `initialDate`: Data inicial da consulta
