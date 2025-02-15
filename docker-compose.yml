@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   processing-service:
     build:
@@ -22,7 +20,7 @@ services:
     image: mongo:5.0
     container_name: mongodb-processing
     ports:
-      - "27018:27017"
+      - "27017:27017"
     networks:
       - processing-network
     volumes:
@@ -32,7 +30,7 @@ services:
     image: redis:7
     container_name: redis-processing
     ports:
-      - "6380:6379"
+      - "6379:6379"
     volumes:
       - redis_processing_data:/data
     networks:
@@ -66,7 +64,7 @@ services:
     container_name: kafdrop
     restart: "no"
     ports:
-      - "9000:9000"
+      - "19000:9000"
     environment:
       KAFKA_BROKERCONNECT: kafka:9092
     depends_on:
