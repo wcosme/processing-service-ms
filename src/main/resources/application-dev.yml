@@ -1,0 +1,10 @@
+# application-dev.yml (Perfil de desenvolvimento)
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/processing-service-db
+    redis:
+      host: localhost
+      port: 6379
+      repositories:
+        enabled: false
