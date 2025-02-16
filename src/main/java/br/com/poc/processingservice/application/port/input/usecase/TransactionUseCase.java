@@ -4,6 +4,9 @@ import br.com.poc.processingservice.application.port.input.dto.request.Transacti
 import br.com.poc.processingservice.application.port.input.dto.response.TransactionResponseDTO;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 public interface TransactionUseCase {
-    Mono<Void> processTransaction(TransactionRequestDTO request);
+    Mono<TransactionResponseDTO> processTransaction(TransactionRequestDTO request);
+    Mono<TransactionResponseDTO> getTransactionById(UUID id);
 }

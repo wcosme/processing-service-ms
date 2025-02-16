@@ -3,7 +3,6 @@ package br.com.poc.processingservice.rest;
 import br.com.poc.processingservice.application.port.input.dto.request.TransactionRequestDTO;
 import br.com.poc.processingservice.application.port.input.dto.response.TransactionResponseDTO;
 import br.com.poc.processingservice.application.port.input.usecase.TransactionUseCase;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,14 +19,14 @@ public class TransactionControllerImpl implements TransactionController {
 
 
     @Override
-    public Mono<ResponseEntity<Void>> processTransaction(@Valid TransactionRequestDTO request) {
+    public Mono<ResponseEntity<TransactionResponseDTO>> processTransaction(TransactionRequestDTO request) {
         return transactionUseCase.processTransaction(request)
-                .then(Mono.just(ResponseEntity.noContent().build()));
+                .map(transaction -> ResponseEntity.ok().body(transaction));
     }
 
     @Override
     public Mono<ResponseEntity<TransactionResponseDTO>> getTransactionStatus(UUID id) {
-        return null;
+        return transactionUseCase.getTransactionById(id).map(ResponseEntity::ok);
     }
 
     @Override

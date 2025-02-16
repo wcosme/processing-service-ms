@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -29,7 +30,7 @@ public interface TransactionController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BusinessException.class)))
     })
     @PostMapping
-    Mono<ResponseEntity<Void>> processTransaction(@RequestBody TransactionRequestDTO request);
+    Mono<ResponseEntity<TransactionResponseDTO>> processTransaction(@RequestBody @Valid TransactionRequestDTO request);
 
     @Operation(summary = "Consulta o status de uma transação", tags = "transaction")
     @ApiResponses(value = {
