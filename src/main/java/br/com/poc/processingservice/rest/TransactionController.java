@@ -11,12 +11,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.UUID;
+import reactor.core.publisher.Flux;
 
 @Tag(name = "Transaction Controller", description = "Gerencia as transações dos usuários")
-@RequestMapping("/transactions")
+@RequestMapping(value = "/processing/api/v1/transactions")
 public interface TransactionController {
 
     @Operation(summary = "Envia uma requisição de análise de transação", tags = "transaction")
@@ -28,7 +29,7 @@ public interface TransactionController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BusinessException.class)))
     })
     @PostMapping
-    ResponseEntity<Void> processTransaction(@RequestBody TransactionRequestDTO request);
+    Mono<ResponseEntity<Void>> processTransaction(@RequestBody TransactionRequestDTO request);
 
     @Operation(summary = "Consulta o status de uma transação", tags = "transaction")
     @ApiResponses(value = {
@@ -39,7 +40,7 @@ public interface TransactionController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BusinessException.class)))
     })
     @GetMapping("/{id}")
-    ResponseEntity<TransactionResponseDTO> getTransactionStatus(@PathVariable UUID id);
+    Mono<ResponseEntity<TransactionResponseDTO>> getTransactionStatus(@PathVariable UUID id);
 
     @Operation(summary = "Consulta as transações de um usuário", tags = "transaction")
     @ApiResponses(value = {
@@ -49,5 +50,5 @@ public interface TransactionController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BusinessException.class)))
     })
     @GetMapping("/user/{userId}")
-    ResponseEntity<List<TransactionResponseDTO>> getUserTransactions(@PathVariable UUID userId);
+    Flux<ResponseEntity<TransactionResponseDTO>> getUserTransactions(@PathVariable UUID userId);
 }

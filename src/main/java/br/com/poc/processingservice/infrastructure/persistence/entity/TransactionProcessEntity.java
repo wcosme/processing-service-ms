@@ -1,4 +1,4 @@
-package br.com.poc.processingservice.infrastructure.entity;
+package br.com.poc.processingservice.infrastructure.persistence.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

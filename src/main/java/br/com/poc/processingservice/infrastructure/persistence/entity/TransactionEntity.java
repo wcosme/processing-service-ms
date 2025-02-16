@@ -1,4 +1,4 @@
-package br.com.poc.processingservice.infrastructure.entity;
+package br.com.poc.processingservice.infrastructure.persistence.entity;
 
 import br.com.poc.processingservice.application.domain.enums.TransactionStatus;
 import lombok.AllArgsConstructor;
