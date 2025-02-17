@@ -1,5 +1,6 @@
 package br.com.poc.processingservice.application.port.input.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,5 +27,6 @@ public class TransactionDto {
     @DecimalMin(value = "0.01", message = "O amount deve ser maior que zero.")
     private BigDecimal amount;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime date = LocalDateTime.now();
 }

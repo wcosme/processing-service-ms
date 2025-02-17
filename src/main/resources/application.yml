@@ -10,7 +10,7 @@ logging:
     org:
       springdoc: DEBUG
       mongodb:
-        driver: DEBUG
+        driver: INFO
       apache: ERROR
       springframework:
         web: DEBUG

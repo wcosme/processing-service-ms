@@ -2,6 +2,7 @@ package br.com.poc.processingservice.infrastructure.persistence;
 
 import br.com.poc.processingservice.application.domain.Transaction;
 import br.com.poc.processingservice.application.port.input.dto.response.TransactionResponseDTO;
+import br.com.poc.processingservice.application.port.output.TransactionCacheRepositoryPortOut;
 import br.com.poc.processingservice.application.port.output.TransactionRepositoryPortOut;
 import br.com.poc.processingservice.infrastructure.persistence.entity.TransactionEntity;
 import br.com.poc.processingservice.infrastructure.repository.TransactionRepository;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class TransactionPersistence implements TransactionRepositoryPortOut {
 
     private final TransactionRepository transactionRepository;
+    private final TransactionCacheRepositoryPortOut cacheRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -28,13 +30,24 @@ public class TransactionPersistence implements TransactionRepositoryPortOut {
         log.info("Persistindo transação no banco de forma assíncrona: {}", transactionEntity);
 
         return transactionRepository.save(transactionEntity)
-                .map(entity -> modelMapper.map(entity, TransactionResponseDTO.class));
+                .map(entity -> modelMapper.map(entity, TransactionResponseDTO.class))
+                .flatMap(transactionDTO -> cacheRepository
+                        .saveTransactionToCache(transactionDTO)
+                        .thenReturn(transactionDTO)); // Salva no Redis após persistência no MongoDB
     }
 
     @Override
     public Mono<TransactionResponseDTO> findById(UUID id) {
-        return transactionRepository.findById(id)
-                .map(entity -> modelMapper.map(entity, TransactionResponseDTO.class));
+        return cacheRepository.getTransactionFromCache(id)
+                .doOnNext(transaction -> log.info("Transação encontrada no cache: {}", transaction))
+                .switchIfEmpty(
+                        transactionRepository.findById(id)
+                                .map(entity -> modelMapper.map(entity, TransactionResponseDTO.class))
+                                .flatMap(transactionDTO -> cacheRepository
+                                        .saveTransactionToCache(transactionDTO)
+                                        .thenReturn(transactionDTO))
+                                .doOnNext(transaction -> log.info("Transação buscada no banco e salva no cache: {}", transaction))
+                );
     }
 
     @Override

@@ -1,5 +1,6 @@
 package br.com.poc.processingservice.application.port.input.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class TransactionResponseDTO {
     private UUID categoryId;
     private String categoryName;
     private BigDecimal amount;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime date;
     private String status;
 }
