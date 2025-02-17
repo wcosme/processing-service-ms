@@ -30,7 +30,8 @@ public class TransactionControllerImpl implements TransactionController {
     }
 
     @Override
-    public Flux<ResponseEntity<TransactionResponseDTO>> getUserTransactions(UUID userId) {
-        return null;
+    public Flux<TransactionResponseDTO> getUserTransactions(UUID userId) {
+        return transactionUseCase.getTransactionsByUserId(userId);
     }
+
 }

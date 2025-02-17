@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -33,6 +34,12 @@ public class TransactionPersistence implements TransactionRepositoryPortOut {
     @Override
     public Mono<TransactionResponseDTO> findById(UUID id) {
         return transactionRepository.findById(id)
+                .map(entity -> modelMapper.map(entity, TransactionResponseDTO.class));
+    }
+
+    @Override
+    public Flux<TransactionResponseDTO> findByUserId(UUID userId) {
+        return transactionRepository.findByUserId(userId)
                 .map(entity -> modelMapper.map(entity, TransactionResponseDTO.class));
     }
 }

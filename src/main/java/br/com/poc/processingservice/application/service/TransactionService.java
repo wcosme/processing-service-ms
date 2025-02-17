@@ -10,6 +10,7 @@ import br.com.poc.processingservice.shared.constant.TransactionErrorCode;
 import br.com.poc.processingservice.shared.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -45,5 +46,10 @@ public class TransactionService implements TransactionUseCase {
                 .switchIfEmpty(Mono.error(
                         new ResourceNotFoundException(
                                 TransactionErrorCode.TRANSACTION_NOT_FOUND.getErrorProperties().getMessage())));
+    }
+
+    @Override
+    public Flux<TransactionResponseDTO> getTransactionsByUserId(UUID userId) {
+        return transactionRepositoryPortOut.findByUserId(userId);
     }
 }

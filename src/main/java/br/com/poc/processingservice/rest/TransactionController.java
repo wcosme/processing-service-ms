@@ -51,5 +51,5 @@ public interface TransactionController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BusinessException.class)))
     })
     @GetMapping("/user/{userId}")
-    Flux<ResponseEntity<TransactionResponseDTO>> getUserTransactions(@PathVariable UUID userId);
+    Flux<TransactionResponseDTO> getUserTransactions(@PathVariable UUID userId);
 }
