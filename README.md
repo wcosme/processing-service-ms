@@ -4,6 +4,11 @@
 
 Este projeto faz parte de uma **prova de conceito (POC)** para demonstrar o uso de **Kafka, MongoDB, Redis e processamento assíncrono com WebFlux**.
 
+## 📌 Desenho da Solução
+A imagem abaixo ilustra a arquitetura da solução proposta para o **Processing Service**:
+
+![Desenho da Solução](docs/desenho-tecnico.png)
+
 ## 💧 Status do Projeto
 🛠️ O projeto está em construção.
 
