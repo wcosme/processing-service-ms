@@ -37,6 +37,13 @@ public class TransactionCachePersistence implements TransactionCacheRepositoryPo
         return redisTemplate.opsForValue().get(key);
     }
 
+    @Override
+    public Mono<Void> removeTransactionFromCache(UUID id) {
+        String key = getTransactionCacheKey(id);
+        log.info("Removendo transação do cache para o ID: {}", id);
+        return redisTemplate.opsForValue().delete(key).then();
+    }
+
     private String getTransactionCacheKey(UUID id) {
         return "transaction:" + id.toString(); // Formato da chave no Redis
     }

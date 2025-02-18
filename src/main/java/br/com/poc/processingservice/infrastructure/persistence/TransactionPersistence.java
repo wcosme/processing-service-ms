@@ -39,14 +39,14 @@ public class TransactionPersistence implements TransactionRepositoryPortOut {
     @Override
     public Mono<TransactionResponseDTO> findById(UUID id) {
         return cacheRepository.getTransactionFromCache(id)
-                .doOnNext(transaction -> log.info("Transação encontrada no cache: {}", transaction))
+                .doOnNext(transaction -> log.info("✅ Transação encontrada no cache: {}", transaction))
                 .switchIfEmpty(
                         transactionRepository.findById(id)
                                 .map(entity -> modelMapper.map(entity, TransactionResponseDTO.class))
                                 .flatMap(transactionDTO -> cacheRepository
                                         .saveTransactionToCache(transactionDTO)
                                         .thenReturn(transactionDTO))
-                                .doOnNext(transaction -> log.info("Transação buscada no banco e salva no cache: {}", transaction))
+                                .doOnNext(transaction -> log.info("🛢️ Transação buscada no banco e salva no cache: {}", transaction))
                 );
     }
 

@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 public interface TransactionCacheRepositoryPortOut {
-
     Mono<Void> saveTransactionToCache(TransactionResponseDTO transaction);
     Mono<TransactionResponseDTO> getTransactionFromCache(UUID id);
+    Mono<Void> removeTransactionFromCache(UUID id); // Novo método
 }
